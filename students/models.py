@@ -5,5 +5,3 @@ class Student(models.Model):
     firstname = models.CharField(max_length=100)
     age = models.IntegerField()
     course = models.CharField(max_length=100)
-    subjects = models.CharField(null=True)
-
