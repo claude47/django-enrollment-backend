@@ -8,7 +8,7 @@ from subjects.serializers import SubjectSerializer
 class SubjectDetailsField(serializers.RelatedField):
     def to_representation(self, value):
         return {
-            "id": value.id,
+            "subject_id": value.id,
             "code": value.code,
             "title": value.title,
             "description": value.description
@@ -16,10 +16,22 @@ class SubjectDetailsField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         return data
+    
+
+class StudentDetailsField(serializers.RelatedField):
+    def to_representation(self, value):
+        return {
+            "student_id": value.id,
+            "lastname": value.lastname,
+            "firstname": value.firstname
+        }
+    
+    def to_internal_value(self, data):
+        return data
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+    student = StudentDetailsField(queryset=Student.objects.all())
     subject = SubjectDetailsField(queryset=Subject.objects.all(), many=True)
 
     class Meta:
