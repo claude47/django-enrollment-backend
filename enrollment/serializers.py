@@ -16,26 +16,25 @@ class SubjectDetailsField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         return data
-    
-
-class StudentDetailsField(serializers.RelatedField):
-    def to_representation(self, value):
-        return {
-            "student_id": value.id,
-            "lastname": value.lastname,
-            "firstname": value.firstname
-        }
-    
-    def to_internal_value(self, data):
-        return data
-
 
 class EnrollmentSerializer(serializers.ModelSerializer):
-    student = StudentDetailsField(queryset=Student.objects.all())
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
     subject = SubjectDetailsField(queryset=Subject.objects.all(), many=True)
 
     class Meta:
         model = Enrollment
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        student_id = representation['student']
+        student = Student.objects.get(id=student_id)
+        representation['student'] = {
+            "id": student.id,
+            "lastname": student.lastname,
+            "firstname": student.firstname,
+            "course": student.course
+        }
+        return representation
 
 
