@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_enrollment_backend',
+        'NAME': 'django_enrollment',
         'USER': 'postgres',
         'PASSWORD': '4619',
         'HOST': 'localhost',

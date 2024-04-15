@@ -1,6 +1,7 @@
 from django.db import models
 
 class Student(models.Model):
+    student_id = models.IntegerField(unique=True)
     lastname = models.CharField(max_length=100)
     firstname = models.CharField(max_length=100)
     age = models.IntegerField()

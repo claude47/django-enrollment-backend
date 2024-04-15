@@ -42,6 +42,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         student = Student.objects.get(id=student_id)
         representation['student'] = {
             "id": student.id,
+            "student_id": student.student_id,
             "lastname": student.lastname,
             "firstname": student.firstname, 
             "course": student.course
