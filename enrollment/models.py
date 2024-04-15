@@ -9,7 +9,9 @@ class Enrollment(models.Model):
         "teachers.Teacher", 
         on_delete=models.CASCADE
         )
-    subject = models.ManyToManyField("subjects.Subject") 
+    subject = models.ManyToManyField(
+        "subjects.Subject"
+        ) 
     enrollment_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
