@@ -45,6 +45,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
             "student_id": student.student_id,
             "lastname": student.lastname,
             "firstname": student.firstname, 
+            "gender": student.gender,
             "course": student.course
         }
 

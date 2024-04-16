@@ -1,6 +1,7 @@
 from django.db import models
 
 class Enrollment(models.Model):
+    enrollment_id = models.PositiveIntegerField(unique=True)
     student = models.ForeignKey(
         "students.Student", 
         on_delete=models.CASCADE
