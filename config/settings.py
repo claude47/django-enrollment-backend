@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'subjects',
     'enrollment',
     'teachers',
+    'courses'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_enrollment',
+        'NAME': 'django_enrollment_backend',
         'USER': 'postgres',
         'PASSWORD': '4619',
         'HOST': 'localhost',

@@ -9,7 +9,8 @@ from teachers.serializers import TeacherSerializer
 class SubjectDetailsField(serializers.RelatedField):
     def to_representation(self, value):
         return {
-            "subject_id": value.id,
+            "id": value.id,
+            "uuid": value.uuid,
             "code": value.code,
             "title": value.title,
             "description": value.description
@@ -42,6 +43,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         student = Student.objects.get(id=student_id)
         representation['student'] = {
             "id": student.id,
+            "uuid": student.uuid,
             "student_id": student.student_id,
             "lastname": student.lastname,
             "firstname": student.firstname, 
