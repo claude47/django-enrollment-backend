@@ -20,19 +20,14 @@ class SubjectDetailsField(serializers.RelatedField):
         return data
 
 class EnrollmentSerializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(
-        queryset=Student.objects.all()
-        )
-    teacher = serializers.PrimaryKeyRelatedField(
-        queryset=Teacher.objects.all()
-        )
-    subject = SubjectDetailsField(
-        queryset=Subject.objects.all(), many=True
-        )
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+    teacher = serializers.PrimaryKeyRelatedField(queryset=Teacher.objects.all())
+    subject = SubjectDetailsField(queryset=Subject.objects.all(), many=True)
 
     class Meta:
         model = Enrollment
-        fields = '__all__'
+        fields = ('id', 'uuid', 'enrollment_id', 
+                  'enrollment_date', 'student', 'teacher', 'subject')
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -52,6 +47,19 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         }
 
         return representation
+    
+    def validate(self, data):
+        student = data['student']
+        subjects = data['subject']
+        for subject in subjects:
+            if Enrollment.objects.filter(student=student, subject=subject).exists():
+                    raise serializers.ValidationError("This student is already enrolled in one of the subjects.")
+        
+        teacher = data['teacher']
+        if Enrollment.objects.filter(student=student, teacher=teacher).exists():
+            raise serializers.ValidationError("This student is already enrolled with this teacher.")
+
+        return data
     
    
 
