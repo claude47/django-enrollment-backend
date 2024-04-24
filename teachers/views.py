@@ -1,16 +1,34 @@
-from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from .models import Teacher
 from .serializers import TeacherSerializer
 from enrollment.models import Enrollment
 from students.serializers import StudentSerializer
 
+# Define a custom pagination class if you need to customize the pagination behavior
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size = 2
+
 class TeacherViewSet(viewsets.ModelViewSet):
-    queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    pagination_class = CustomPageNumberPagination # Use the custom pagination class
+
+    def get_queryset(self):
+        # No need to manually paginate here, Django REST Framework handles it
+        return Teacher.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
         teacher = get_object_or_404(Teacher, pk=pk)
