@@ -8,16 +8,14 @@ from .serializers import TeacherSerializer
 from enrollment.models import Enrollment
 from students.serializers import StudentSerializer
 
-# Define a custom pagination class if you need to customize the pagination behavior
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 3
 
 class TeacherViewSet(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
-    pagination_class = CustomPageNumberPagination # Use the custom pagination class
+    pagination_class = CustomPageNumberPagination 
 
     def get_queryset(self):
-        # No need to manually paginate here, Django REST Framework handles it
         return Teacher.objects.all()
 
     def list(self, request, *args, **kwargs):
