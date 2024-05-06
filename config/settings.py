@@ -44,17 +44,38 @@ INSTALLED_APPS = [
     'subjects',
     'enrollment',
     'teachers',
-    'courses'
+    'courses',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOW_ALL_ORIGINS = False # Disable if you want to restrict to specific origins
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173', # Example: Allow requests from your React app running on localhost:5173
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    # Add any additional headers you need here
 ]
 
 ROOT_URLCONF = 'config.urls'

@@ -31,6 +31,16 @@ class Login(APIView):
             token, created = Token.objects.get_or_create(user=user)
             return Response({"token": token.key, "detail": "Login successful"})
         return Response({"detail": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+    
+class Logout(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        # Get the user's token
+        token = request.auth
+        # Delete the token
+        token.delete()
+        return Response({"detail": "Logout successful"}, status=status.HTTP_200_OK)
 
 class GetUser(RetrieveAPIView):
         queryset = User.objects.all()
